@@ -16,7 +16,7 @@ class InMemoryTodoRepository
         @todos
     end
 
-    def find(id)
+    def find_by_id(id)
         @todos[id]
     end
 
