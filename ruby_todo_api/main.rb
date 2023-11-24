@@ -5,7 +5,7 @@ require_relative "./store"
 
 
 class WebAPI
-    def initialize
+    def initialize(app)
         @app = app
         @server = server
     end
@@ -16,11 +16,6 @@ class WebAPI
     end
 
     private
-    def app
-        f = TodoFactory.new
-        r = InMemoryTodoRepository.new
-        app = TodoApp.new(f, r)
-    end
 
     def server
         server = WEBrick::HTTPServer.new({ Port: 8080 })
@@ -39,7 +34,10 @@ class WebAPI
 end
 
 def run
-    WebAPI.new.run
+    f = TodoFactory.new
+    r = InMemoryTodoRepository.new
+    app = TodoApp.new(f, r)
+    WebAPI.new(app).run
 end
 
 run()
