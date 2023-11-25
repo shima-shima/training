@@ -2,7 +2,13 @@ require "json"
 require "sinatra/base"
 require_relative "./app"
 require_relative "./store"
+require_relative "./todo"
 
+class Todo
+    def to_hash
+        { :id => @id, :title => @title, :body => @body }
+    end
+end
 
 class WebAPI
     def initialize(app)
@@ -28,7 +34,7 @@ class WebAPI
             get("/todos") do
                 resp = { :todos => [] }
                 app.get_all.each do |id, todo|
-                   resp[:todos] << { :id => id, :title => todo.title, :body => todo.body }
+                    resp[:todos] << todo.to_hash
                 end
                 resp.to_json
             end
@@ -37,7 +43,7 @@ class WebAPI
                 request.body.rewind
                 data = JSON.parse request.body.read
                 todo = app.add(data["title"], data["body"])
-                { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
+                todo.to_hash.to_json
             end
 
             get("/todos/:id") do
@@ -48,7 +54,7 @@ class WebAPI
                     return ""
                 end
 
-                { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
+                todo.to_hash.to_json
             end
         }
 
