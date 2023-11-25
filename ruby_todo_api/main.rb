@@ -39,6 +39,11 @@ class WebAPI
                 todo = app.add(data["title"], data["body"])
                 { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
             end
+
+            get("/todos/:id") do
+                todo = app.get_by_id(params["id"])
+                { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
+            end
         }
 
         server
