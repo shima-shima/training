@@ -14,6 +14,22 @@ describe TodoApp do
         end
     end
 
+    describe "add" do
+        f = TodoFactory.new
+        r = InMemoryTodoRepository.new
+        app = TodoApp.new(f, r)
+
+        added_todo = app.add(:title, :body)
+
+        it "addしたtodoのタイトルと返されたtodoのタイトルが一致する" do
+            _(added_todo.title).must_equal :title
+        end
+        
+        it "addしたtodoの内容と返されたtodoの内容が一致する" do
+            _(added_todo.body).must_equal :body
+        end
+    end
+
     describe "add & get" do
         f = TodoFactory.new
         r = InMemoryTodoRepository.new
