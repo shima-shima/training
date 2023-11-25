@@ -54,11 +54,11 @@ describe TodoApp do
             { :title => "t2", :body => "b2"},
         ]
 
-        actual_todos = app.get_all
-
         add_todos.each do |add_todo|
             app.add(add_todo[:title], add_todo[:body])
         end
+
+        actual_todos = app.get_all
 
         it "addした件数とget_allの件数が一致する" do
             _(actual_todos.length).must_equal add_todos.length

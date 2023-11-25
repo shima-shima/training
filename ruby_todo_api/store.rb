@@ -13,14 +13,14 @@ class InMemoryTodoRepository
     end
 
     def find_all
-        @todos
+        @todos.dup
     end
 
     def find_by_id(id)
-        @todos[id]
+        @todos[id].dup
     end
 
     def save(todo)
-        @todos[todo.id] = todo
+        (@todos[todo.id] = todo).dup
     end
 end
