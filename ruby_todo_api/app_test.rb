@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "./app"
 require_relative "./store"
+require_relative "./todo"
 
 describe TodoApp do
 
@@ -74,6 +75,50 @@ describe TodoApp do
             actual_todos.each_with_index do |(id, actual_todo), i|
                 _(actual_todo.body).must_equal add_todos[i][:body]
             end
+        end
+    end
+
+    describe "update" do
+        f = TodoFactory.new
+        r = InMemoryTodoRepository.new
+        app = TodoApp.new(f, r)
+
+        added_todo = app.add(:title, :body)
+
+        update_todo = added_todo
+        update_todo.title = "update: #{added_todo.title}"
+        update_todo.body = "update: #{added_todo.body}"
+        updated_todo = app.update(update_todo)
+
+        it "updateしたtodoのタイトルと返されたtodoのタイトルが一致する" do
+            _(updated_todo.title).must_equal update_todo.title
+        end
+        
+        it "updateしたtodoの内容と返されたtodoの内容が一致する" do
+            _(updated_todo.body).must_equal update_todo.body
+        end
+    end
+
+    describe "update & get" do
+        f = TodoFactory.new
+        r = InMemoryTodoRepository.new
+        app = TodoApp.new(f, r)
+
+        added_todo = app.add(:title, :body)
+
+        update_todo = added_todo
+        update_todo.title = "update: #{added_todo.title}"
+        update_todo.body = "update: #{added_todo.body}"
+        app.update(update_todo)
+
+        updated_todo = app.get_by_id(added_todo.id)
+
+        it "updateしたtodoのタイトルと返されたtodoのタイトルが一致する" do
+            _(updated_todo.title).must_equal update_todo.title
+        end
+        
+        it "updateしたtodoの内容と返されたtodoの内容が一致する" do
+            _(updated_todo.body).must_equal update_todo.body
         end
     end
 end
