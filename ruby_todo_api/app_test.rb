@@ -30,7 +30,7 @@ describe TodoApp do
         end
     end
 
-    describe "add & get" do
+    describe "add & get_all" do
         f = TodoFactory.new
         r = InMemoryTodoRepository.new
         app = TodoApp.new(f, r)
