@@ -32,6 +32,13 @@ class WebAPI
                 end
                 resp.to_json
             end
+
+            post("/todos") do
+                request.body.rewind
+                data = JSON.parse request.body.read
+                todo = app.add(data["title"], data["body"])
+                { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
+            end
         }
 
         server
