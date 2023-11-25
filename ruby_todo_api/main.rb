@@ -6,7 +6,7 @@ require_relative "./todo"
 
 class Todo
     def to_hash
-        { :id => @id, :title => @title, :body => @body }
+        { :id => @id, :open => open?, :title => @title, :body => @body }
     end
 end
 
