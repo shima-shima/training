@@ -97,6 +97,10 @@ describe TodoApp do
         it "updateしたtodoの内容と返されたtodoの内容が一致する" do
             _(updated_todo.body).must_equal update_todo.body
         end
+
+        it "存在しないtodoをupdateするとnilが返ってくる" do
+            _(app.update(Todo.new("", "", ""))).must_be_nil
+        end
     end
 
     describe "update & get" do

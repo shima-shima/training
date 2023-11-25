@@ -20,6 +20,10 @@ class TodoApp
 
     def update(todo)
         target_todo = get_by_id(todo.id)
+        if target_todo.nil?
+            return nil
+        end
+
         target_todo.title = todo.title
         target_todo.body = todo.body
         @repository.save(target_todo)
