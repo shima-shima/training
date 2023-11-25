@@ -1,8 +1,6 @@
 require "minitest/autorun"
 require_relative "./app"
 require_relative "./store"
-require_relative "./todo"
-require "json"
 
 describe TodoApp do
 
