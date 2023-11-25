@@ -1,11 +1,11 @@
 # Ruby Todo API
-## Server run
+## Run server
 ```bash
 $ ruby main.rb
 # listen port: 8080
 ```
 
-## Examples
+## Request examples
 ```bash
 # get all todos
 curl localhost:8080/todos
