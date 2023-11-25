@@ -42,6 +42,12 @@ class WebAPI
 
             get("/todos/:id") do
                 todo = app.get_by_id(params["id"])
+
+                if todo.nil?
+                    status 404
+                    return ""
+                end
+
                 { :id => todo.id, :title => todo.title, :body => todo.body }.to_json
             end
         }
