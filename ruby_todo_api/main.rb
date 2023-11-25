@@ -1,36 +1,41 @@
-require "webrick"
 require "json"
+require "sinatra/base"
 require_relative "./app"
 require_relative "./store"
 
 
 class WebAPI
     def initialize(app)
-        @app = app
-        @server = server
+        @server = server(app)
     end
 
     def run
-        trap("INT") do @server.shutdown end
-        @server.start
+        @server.run!
     end
 
     private
 
-    def server
-        server = WEBrick::HTTPServer.new({ Port: 8080 })
+    def server(app)
+        server = Sinatra.new {
+            configure do
+                set :port, 8080
+            end
 
-        content_type = "application/json"
-        response = { "todos" => [] }
+            before do
+                content_type :json
+            end
 
-        server.mount_proc "/todos" do |req, res|
-            res["Content-Type"] = content_type
-            response["todos"] = @app.get_all.to_a
-            res.body = response.to_json
-        end
+            get("/todos") do
+                resp = { :todos => [] }
+                app.get_all.each do |id, todo|
+                   resp[:todos] << { :id => id, :title => todo.title, :body => todo.body }
+                end
+                resp.to_json
+            end
+        }
 
         server
-    end
+    end 
 end
 
 def run
