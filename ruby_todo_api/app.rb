@@ -10,6 +10,10 @@ class TodoApp
         @repository.find_all
     end
 
+    def get_by_id(id)
+        @repository.find_by_id(id)
+    end
+
     def add(title, body)
         @repository.save(@factory.new(title, body))
     end
