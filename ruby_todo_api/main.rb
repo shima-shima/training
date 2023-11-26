@@ -40,9 +40,7 @@ class WebAPI
             end
 
             post("/todos") do
-                request.body.rewind
-                data = JSON.parse request.body.read
-                todo = app.add(data["title"], data["body"])
+                todo = app.add(params["title"], params["body"])
                 todo.to_hash.to_json
             end
 
